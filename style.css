@@ -265,18 +265,24 @@ border-radius: 4px;
 padding-inline: 10px;
 /* grid-template-columns: 1fr; */
 }
+.input-field {
+  grid-column: 1 / -1;
+}
 .url input {
   padding-inline: 13px;
   border-radius: 8px;
   border: none;
-
+  width: 100%;
   grid-column: 1 / -1;
 }
 .url input:focus,
 .url input:hover {
   outline: 2px solid --Red;
 }
-.url input::placeholder {
+.url .input::placeholder {
+  color: var(--Red);
+}
+.error-text  {
   color: var(--Red);
 }
 .url input,
@@ -286,12 +292,20 @@ padding-inline: 10px;
   padding-block: 8px;
 }
 .shortened-results {
+  margin-top: 20px;
   padding-block: 12px;
   grid-column: 2 / -2;
 }
 .url-container {
   display: grid;
   gap: 20px;
+  grid-template-columns: 1fr;
+
+ 
+}
+.original-url {
+  overflow:auto ;
+  padding-inline: 8px;
 }
 .url-container + .url-container {
   margin-top: 10px;
@@ -302,8 +316,7 @@ padding-inline: 10px;
 
   transition: all 0.2s ease-in-out;
 }
-.button.copy:hover,
-.button.copy:focus {
+.button.copied{
   background-color: var(--dark-violet);
 }
 .mini-url {
@@ -476,6 +489,9 @@ padding-inline: 10px;
   .url {
     padding-block: 40px;
   }
+  .input-field {
+    grid-column:  2 / -3;
+  }
   .url input {
     grid-column:  2 / -3;
     width: 100%;
@@ -491,13 +507,13 @@ padding-inline: 10px;
 .url-container {
 
   /* display: grid; */
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 2fr repeat(2, 1fr);
 
 }
 
 .url-container .button.copy {
   justify-self: end;
-  align-self: end;
+  align-self: start;
   
 } 
 
@@ -588,9 +604,12 @@ padding-inline: 10px;
   .url {
     grid-column: 2 / -2;
   }
+  .input-field {
+    grid-column:  2 / 12;
+  }
   .url input {
     grid-column:  2 / 12;
-    width: 100%;
+ 
 
   }
   .url .shorten {

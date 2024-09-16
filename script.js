@@ -24,7 +24,6 @@ navigator.clipboard.writeText(text)
 })
 }
 
-
 function shortenUrl(url) {
     fetch(`https://tinyurl.com/api-create.php?url=${url}`)
     .then((resp) => {
@@ -34,7 +33,9 @@ function shortenUrl(url) {
         return resp.text();
     })
     .then((urlText) => {
-      console.log(urlText) 
+   
+        saveUrlData(url, urlText);
+      renderUrlResults()
        
 
     })
@@ -43,20 +44,94 @@ function shortenUrl(url) {
     })
 }
 
-shortenUrl('https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame');
+// shortenUrl('https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame');
 document.querySelector('.js-shorten-button').addEventListener('click', () => {
     document.querySelector('.js-form').addEventListener('submit', (event) => {
-      event.preventDefault()
+      event.preventDefault();
+   
+      let urlInput = document.querySelector('.js-url-input');
+      urlInput = urlInput.value;
+    
+      if(urlInput !== '') {
+        shortenUrl(urlInput.trim());
+        document.querySelector('.js-url-input').value = '';
+        document.querySelector('.js-url-input').classList.remove('input');
+        document.querySelector('.js-empty-input').innerHTML = '';
+      }else {
+       /* document.querySelector('.js-empty-input').innerHTML = 'Input field is empty!';
+        document.querySelector('.js-url-input').classList.add('input');*/
+      }
+    
 
 
 
     });
 
 });
-
-const urls = [
+let urls;
+ urls = JSON.parse(localStorage.getItem('urls')) || [
 
 ];
+function saveUrlData(originalUrl, shortUrl) {
+    let matchingUrl;
+    urls.forEach((urlItem) => {
+        if(urlItem.originalUrl === originalUrl) {
+            matchingUrl = urlItem;
+
+        }
+
+    })
+    if(!matchingUrl) {
+        urls.push({
+        
+            originalUrl,
+            shortUrl,
+    });
+
+    }
+    saveToStorage();
+    
+}
+function renderUrlResults() {
+let urlHtml = '';
+let urlId = 0;
+
+
+    urls.forEach((urlItem) => {
+        urlId++;
+        urlHtml += `
+         <li class=" url-container ">
+            <a href="#" class="original-url" >${urlItem.originalUrl}</a>
+            <a href="${urlItem.shortUrl}" target="_blank" class="mini-url js-short-url-${urlId}">${urlItem.shortUrl}</a>
+            <button class="button copy js-copy-button js-copy-${urlId}" data-url-id="${urlId}">Copy</button>
+           </li>
+        `
+
+
+    });
+
+ 
+document.querySelector('.js-url-results').innerHTML = urlHtml;
+document.querySelectorAll('.js-copy-button').forEach((copyButton) => {
+    copyButton.addEventListener('click', () => {
+        const {urlId} = copyButton.dataset;
+        let copyText = document.querySelector(`.js-short-url-${urlId}`);
+        copyText = copyText.textContent;
+        copyToClipboard(copyText);
+        document.querySelector(`.js-copy-${urlId}`).innerHTML = 'copied';
+        document.querySelector(`.js-copy-${urlId}`).classList.add('copied');
+
+    });
+
+});
+
+}
+function saveToStorage() {
+    localStorage.setItem('urls', JSON.stringify(urls));
+}
+
+renderUrlResults();
+
 
 
 

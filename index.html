@@ -77,13 +77,17 @@
         </div>
       </section>
       <section class="url-shortening grid-main">
-        <form action="#" class="url grid-main js-form">
-          <input
-            type="text"
-            name="url"
-            placeholder="Shorten a link here"
-            class="js-url-input"
-          />
+        <form action="#" class="url grid-main js-form" autocomplete="on">
+          <div class="input-field">
+            <input
+              type="text"
+              name="url"
+              placeholder="Shorten a link here"
+              class="js-url-input"
+            />
+            <p class="error-text js-empty-input"></p>
+          </div>
+       
           <input
             type="submit"
             class="button shorten js-shorten-button"
