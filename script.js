@@ -101,7 +101,7 @@ let urlId = 0;
         urlId++;
         urlHtml += `
          <li class=" url-container ">
-            <a href="#" class="original-url" >${urlItem.originalUrl}</a>
+            <a href="" class="original-url" >${urlItem.originalUrl}</a>
             <a href="${urlItem.shortUrl}" target="_blank" class="mini-url js-short-url-${urlId}">${urlItem.shortUrl}</a>
             <button class="button copy js-copy-button js-copy-${urlId}" data-url-id="${urlId}">Copy</button>
            </li>

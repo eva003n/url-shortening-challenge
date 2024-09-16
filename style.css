@@ -306,6 +306,7 @@ padding-inline: 10px;
 .original-url {
   overflow:auto ;
   padding-inline: 8px;
+  color: var(--dark-violet);
 }
 .url-container + .url-container {
   margin-top: 10px;
