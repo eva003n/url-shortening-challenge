@@ -24,25 +24,7 @@ navigator.clipboard.writeText(text)
 })
 }
 
-function shortenUrl(url) {
-    fetch(`https://tinyurl.com/api-create.php?url=${url}`)
-    .then((resp) => {
-        if(!resp.ok) {
-            throw Error('Failed to fetch!');
-        }
-        return resp.text();
-    })
-    .then((urlText) => {
-   
-        saveUrlData(url, urlText);
-      renderUrlResults()
-       
 
-    })
-    .catch((err) => {
-         console.warn(err.message);
-    })
-}
 
 // shortenUrl('https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame');
 document.querySelector('.js-shorten-button').addEventListener('click', () => {
@@ -57,6 +39,11 @@ document.querySelector('.js-shorten-button').addEventListener('click', () => {
         document.querySelector('.js-url-input').value = '';
         document.querySelector('.js-url-input').classList.remove('input');
         document.querySelector('.js-empty-input').innerHTML = '';
+
+        
+            document.querySelector('.js-loader').classList.add('reveal-loader'); 
+         
+    
       }else {
        /* document.querySelector('.js-empty-input').innerHTML = 'Input field is empty!';
         document.querySelector('.js-url-input').classList.add('input');*/
@@ -92,6 +79,7 @@ function saveUrlData(originalUrl, shortUrl) {
     saveToStorage();
     
 }
+let loaderTimeout;
 function renderUrlResults() {
 let urlHtml = '';
 let urlId = 0;
@@ -109,6 +97,7 @@ let urlId = 0;
 
 
     });
+
 
  
 document.querySelector('.js-url-results').innerHTML = urlHtml;
@@ -131,9 +120,35 @@ function saveToStorage() {
 }
 
 renderUrlResults();
+function shortenUrl(url) {
+    fetch(`https://tinyurl.com/api-create.php?url=${url}`)
+    .then((resp) => {
+        if(!resp.ok) {
+            throw Error('Failed to fetch!');
+        }
+        return resp.text();
+    })
+    .then((urlText) => {
+        setTimeout(() => {
+            document.querySelector('.js-loader').classList.remove('reveal-loader'); 
+   
+            saveUrlData(url, urlText);
+          renderUrlResults();
+
+        }, 2000)
+       
+       
+
+    })
+    .catch((err) => {
+         console.warn(err.message);
+    })
+}
 
 
+function addLoaderAnime() {
 
+}
 
 
 
