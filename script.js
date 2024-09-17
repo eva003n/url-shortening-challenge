@@ -23,7 +23,13 @@ navigator.clipboard.writeText(text)
     console.log('copied to clipboard');
 })
 }
+function extractUrlInput() {
+    
+    let urlInput = document.querySelector('.js-url-input');
+    urlInput = urlInput.value;
+    return urlInput;
 
+}
 
 
 // shortenUrl('https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame');
@@ -31,22 +37,23 @@ document.querySelector('.js-shorten-button').addEventListener('click', () => {
     document.querySelector('.js-form').addEventListener('submit', (event) => {
       event.preventDefault();
    
-      let urlInput = document.querySelector('.js-url-input');
-      urlInput = urlInput.value;
-    
+    const urlInput = extractUrlInput();
+
       if(urlInput !== '') {
         shortenUrl(urlInput.trim());
         document.querySelector('.js-url-input').value = '';
-        document.querySelector('.js-url-input').classList.remove('input');
+         document.querySelector('.js-url-input').classList.remove('input');
         document.querySelector('.js-empty-input').innerHTML = '';
 
         
             document.querySelector('.js-loader').classList.add('reveal-loader'); 
-         
+            
+            // document.querySelector('.js-url-input').classList.remove('input');
+            document.querySelector('.js-empty-input').classList.remove('error')
     
       }else {
-       /* document.querySelector('.js-empty-input').innerHTML = 'Input field is empty!';
-        document.querySelector('.js-url-input').classList.add('input');*/
+        document.querySelector('.js-empty-input').classList.add('error')
+        document.querySelector('.js-url-input').classList.add('input');
       }
     
 
@@ -145,10 +152,15 @@ function shortenUrl(url) {
     })
 }
 
-
-function addLoaderAnime() {
+ document.querySelector('.js-url-input').addEventListener('keyDown', (e) => {
+if(e.key === 'Enter') {
+    const urlInput = extractUrlInput();
+    shortenUrl(urlInput.trim());
 
 }
+
+ });
+
 
 
 
